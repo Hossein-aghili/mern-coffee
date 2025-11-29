@@ -2,8 +2,10 @@
   "name": "mern-coffee",
   "version": "1.0.0",
   "main": "server.js",
+  "type": "module",
   "scripts": {
-    "test": "hello coffee"
+    "test": "hello coffee",
+    "dev" : "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
