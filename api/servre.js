@@ -3,5 +3,8 @@ import mongoose from "mongoose";
 import dotenv from 'dotenv'
 import { __dirname } from "./app.js";
 
-dotenv.configDotenv({path:__dirname +'/config.env'})
+dotenv.configDotenv({ path: __dirname + '/config.env' })
 
+mongoose.connect(process.env.DATA_BASE).then(() => {
+    console.log('database is connect')
+}).catch(err => console.log(err))
