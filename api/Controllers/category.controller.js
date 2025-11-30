@@ -1,10 +1,25 @@
 import Category from "../Models/category.model.js";
-import { catchAsync, HandleERROR } from "vanta-api";
+import ApiFeatures, { catchAsync, HandleERROR } from "vanta-api";
 export const create = catchAsync(async (req, res, next) => {
     const category = await Category.create(req.body)
     return res.status(200).json({
         success: true,
         data: category,
         message: 'دسته بندی با موفقیت ساخته شد'
+    })
+})
+export const getAll = catchAsync(async (req, res, next) => {
+    const features = new ApiFeatures(Category, req.query, req.role)
+        .filter()
+        .sort()
+        .populate()
+        .paginate()
+        .limitFields()
+    const categories = await features.execute()
+    const count = await Category.countDocuments()
+    return res.status(200).json({
+        success: true,
+        data: categories,
+        count
     })
 })
