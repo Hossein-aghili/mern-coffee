@@ -6,7 +6,8 @@ const sliderSchema = mongoose.Schema({
     },
     images: {
         type: [String],
-        required: [true, 'image is required']
+        required: [true, 'image is required'],
+        default:[]
     },
     isActive: {
         type: Boolean,

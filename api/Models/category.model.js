@@ -6,7 +6,8 @@ const categorySchema = mongoose.Schema({
         required: [true, 'عنوان اجباری است']
     },
     images: {
-        type: [String]
+        type: [String],
+        default:[]
     },
     parentCategory: {
         type: mongoose.Schema.Types.ObjectId,
