@@ -52,7 +52,7 @@ export const update = catchAsync(async (req, res, next) => {
 })
 export const remove = catchAsync(async (req, res, next) => {
     const { id } = req.params
-    const category = await Category.findByIdAndUpdate(id)
+    const category = await Category.findByIdAndDelete(id)
     return res.status(200).json({
         success: true,
         data: category,
