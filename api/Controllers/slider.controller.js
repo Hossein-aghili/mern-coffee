@@ -25,3 +25,15 @@ export const getAll = catchAsync(async (req, res, next) => {
         count
     })
 })
+export const getOne = catchAsync(async (req, res, next) => {
+    const { id } = req.params
+    const slider = await Slider.findById(id)
+    if (!slider) {
+        return next(new HandleERROR('اسلایدر پیدا نشد'), 404)
+    }
+    return res.status(201).json({
+        success: true,
+        data: slider,
+        message: 'اسلایدر با موفقیت دریافت شد'
+    })
+})
