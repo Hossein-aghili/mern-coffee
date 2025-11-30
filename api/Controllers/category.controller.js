@@ -35,3 +35,18 @@ export const getOne = catchAsync(async (req, res, next) => {
         message: 'دسته بندی با موفقیت دریافت شد'
     })
 })
+export const update = catchAsync(async (req, res, next) => {
+    const { id } = req.params
+    const category = await Category.findByIdAndUpdate(id, req.body, {
+        new: true,
+        runValidators: true
+    })
+    if (!category) {
+        return next(new HandleERROR('دسته بندی پیدا نشد', 404))
+    }
+    return res.status(200).json({
+        success: true,
+        data: category,
+        message: 'دسته بندی با موفقیت آپدیت شد'
+    })
+})
