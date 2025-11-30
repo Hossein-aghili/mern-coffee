@@ -54,3 +54,12 @@ export const update = catchAsync(async (req, res, next) => {
         message:'اسلایدر با موفقیت آپدیت شد'
     })
 })
+export const remove = catchAsync(async (req, res, next) => {
+    const { id } = req.params
+    const slider = await Slider.findByIdAndDelete(id)
+    return res.status(200).json({
+        success:true,
+        data:slider,
+        message:'اسلایدر با موفقیت آپدیت شد'
+    })
+})
