@@ -59,6 +59,6 @@ export const remove = catchAsync(async (req, res, next) => {
     return res.status(200).json({
         success:true,
         data:slider,
-        message:'اسلایدر با موفقیت آپدیت شد'
+        message:'اسلایدر با موفقیت حذف شد'
     })
 })
