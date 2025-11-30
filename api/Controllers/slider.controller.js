@@ -1,6 +1,5 @@
 import Slider from "../Models/slider.model.js";
-import ApiFeatures, { HandleERROR } from "vanta-api";
-import catchAsync from "vanta-api";
+import ApiFeatures, { catchAsync, HandleERROR } from "vanta-api";
 
 export const create = catchAsync(async (req, res, next) => {
     const slider = await Slider.create(req.body)
@@ -11,7 +10,7 @@ export const create = catchAsync(async (req, res, next) => {
     })
 })
 export const getAll = catchAsync(async (req, res, next) => {
-    const features = ApiFeatures(Slider, req.query, req.role)
+    const features = new ApiFeatures(Slider, req.query, req.role)
         .filter()
         .sort()
         .populate()
