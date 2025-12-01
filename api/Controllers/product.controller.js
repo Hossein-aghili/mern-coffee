@@ -51,3 +51,12 @@ export const update = catchAsync(async (req, res, next) => {
         message: 'محصول با موفقیت آپدیت شد'
     })
 })
+export const remove = catchAsync(async (req, res, next) => {
+    const { id } = req.body
+    const product = await Product.findByIdAndDelete(id)
+    return res.status(200).json({
+        success: true,
+        data: product,
+        message: 'محصول با موفقیت حذف شد'
+    })
+})
