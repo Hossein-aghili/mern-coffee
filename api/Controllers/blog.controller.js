@@ -19,8 +19,21 @@ export const getAll = catchAsync(async (req, res, next) => {
     const blogs = await features.execute()
     const count = await Blog.countDocuments()
     return res.status(200).json({
-        success:true,
-        data:blogs,
+        success: true,
+        data: blogs,
         count
+    })
+})
+
+export const getOne = catchAsync(async (req, res, next) => {
+    const { id } = req.params
+    const blog = await Blog.findById(id)
+    if (!blog) {
+        return next(new HandleERROR('وبلاگ پیدا نشد', 404))
+    }
+    return res.status(200).json({
+        success: true,
+        data: blog,
+        message: 'وبلاگ با موفقیت دریافت شد'
     })
 })
