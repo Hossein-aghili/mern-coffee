@@ -4,7 +4,8 @@ import express from "express"
 import cors from 'cors'
 import morgan from "morgan";
 import sliderRouter from "./Routes/slider.route.js";
-import Category from "./Models/category.model.js";
+import categoryRouter from "./Routes/category.route.js";
+import blogRouter from "./Routes/blog.route.js";
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
 
@@ -14,7 +15,8 @@ app.use(express.json())
 app.use(morgan("dev"))
 app.use(express.static("Public"))
 app.use('/api/slider',sliderRouter)
-app.use('/api/category',Category)
+app.use('/api/category',categoryRouter)
+app.use('/api/blog',blogRouter)
 
 
 export default app
