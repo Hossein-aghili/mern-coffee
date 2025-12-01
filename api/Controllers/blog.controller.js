@@ -54,7 +54,7 @@ export const update = catchAsync(async (req, res, next) => {
 })
 export const remove = catchAsync(async (req, res, next) => {
     const { id } = req.params
-    const blog = await Blog.findByIdAndUpdate(id)
+    const blog = await Blog.findByIdAndDelete(id)
     return res.status(200).json({
         success: true,
         data: blog,
