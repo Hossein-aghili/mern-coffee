@@ -45,8 +45,6 @@ export const update = catchAsync(async (req, res, next) => {
     if (!slider) {
         return next(new HandleERROR('اسلایدر پیدا نشد', 404))
     }
-    slider.isActive = !slider.isActive
-    await slider.save()
     return res.status(200).json({
         success:true,
         data:slider,

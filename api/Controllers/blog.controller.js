@@ -46,17 +46,14 @@ export const update = catchAsync(async (req, res, next) => {
     if (!blog) {
         return next(new HandleERROR('وبلاگ پیدا نشد', 404))
     }
-    blog.isActive = !blog.isActive
-    const newBlog = await blog.save()
-
     return res.status(200).json({
         success: true,
         data: newBlog,
         message: 'وبلاگ با موفقیت اپدیت شد'
     })
 })
-export const remove = catchAsync(async(req,res,next)=>{
-        const { id } = req.params
+export const remove = catchAsync(async (req, res, next) => {
+    const { id } = req.params
     const blog = await Blog.findByIdAndUpdate(id)
     return res.status(200).json({
         success: true,
