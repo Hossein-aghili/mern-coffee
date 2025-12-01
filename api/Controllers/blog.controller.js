@@ -55,3 +55,12 @@ export const update = catchAsync(async (req, res, next) => {
         message: 'وبلاگ با موفقیت اپدیت شد'
     })
 })
+export const remove = catchAsync(async(req,res,next)=>{
+        const { id } = req.params
+    const blog = await Blog.findByIdAndUpdate(id)
+    return res.status(200).json({
+        success: true,
+        data: blog,
+        message: 'وبلاگ با موفقیت حذف شد'
+    })
+})
