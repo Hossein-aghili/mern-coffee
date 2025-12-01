@@ -26,13 +26,28 @@ export const getAll = catchAsync(async (req, res, next) => {
 })
 export const getOne = catchAsync(async (req, res, next) => {
     const { id } = req.params
-    const prosuct = await Product.findById(id).populate('CategoryId')
-    if (!prosuct) {
+    const product = await Product.findById(id).populate('CategoryId')
+    if (!product) {
         return next(new HandleERROR('محصول پیدا نشد', 404))
     }
     return res.status(200).json({
         success: true,
-        data: prosuct,
+        data: product,
         message: 'محصول با موفقیت دریافت شد'
+    })
+})
+export const update = catchAsync(async (req, res, next) => {
+    const { id } = req.body
+    const product = await Product.findByIdAndUpdate(id, req.body, {
+        new: true,
+        runValidators: true
+    })
+    if (!product) {
+        return next(new HandleERROR('محصول پیدا نشد', 404))
+    }
+    return res.status(200).json({
+        success: true,
+        data: product,
+        message: 'محصول با موفقیت آپدیت شد'
     })
 })
