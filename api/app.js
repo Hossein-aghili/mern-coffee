@@ -6,6 +6,7 @@ import morgan from "morgan";
 import sliderRouter from "./Routes/slider.route.js";
 import categoryRouter from "./Routes/category.route.js";
 import blogRouter from "./Routes/blog.route.js";
+import productRouter from "./Routes/product.route.js";
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
 
@@ -17,6 +18,7 @@ app.use(express.static("Public"))
 app.use('/api/slider',sliderRouter)
 app.use('/api/category',categoryRouter)
 app.use('/api/blog',blogRouter)
+app.use('/api/product',productRouter)
 
 
 export default app
