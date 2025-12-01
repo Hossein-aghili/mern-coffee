@@ -37,3 +37,21 @@ export const getOne = catchAsync(async (req, res, next) => {
         message: 'وبلاگ با موفقیت دریافت شد'
     })
 })
+export const update = catchAsync(async (req, res, next) => {
+    const { id } = req.params
+    const blog = await Blog.findByIdAndUpdate(id, req.body, {
+        new: true,
+        runValidators: true
+    })
+    if (!blog) {
+        return next(new HandleERROR('وبلاگ پیدا نشد', 404))
+    }
+    blog.isActive = !blog.isActive
+    const newBlog = await blog.save()
+
+    return res.status(200).json({
+        success: true,
+        data: newBlog,
+        message: 'وبلاگ با موفقیت اپدیت شد'
+    })
+})
