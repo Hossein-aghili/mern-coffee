@@ -2,6 +2,7 @@ import User from "../Models/user.model.js";
 import { catchAsync, HandleERROR } from "vanta-api";
 import jwt from "jsonwebtoken";
 import bcryptjs from "bcryptjs";
+import { sendAuthCode, verifyCode } from "../Utils/smsHandler.js";
 export const auth = catchAsync(async (req, res, next) => {
     const { phoneNumber = null } = req.body
     if (!phoneNumber) {
@@ -136,4 +137,15 @@ export const forgetPassword = catchAsync(async (req, res, next) => {
         },
         message: "رمز عبور با موفقیت تغییر کرد"
     })
+})
+export const resendCode = catchAsync(async (req, res, next) => {
+    const { phoneNumber = null } = req.body
+    if (!phoneNumber) {
+        return next(new HandleERROR('شماره تلفن اجباری است'))
+    }
+    const resultSms = await sendAuthCode(phoneNumber)
+    return res.status(200).json({
+        success: resultSms.success,
+        message: resultSms.success ? "code sent" : resultSms?.message,
+    });
 })
