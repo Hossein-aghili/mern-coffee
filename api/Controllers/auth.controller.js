@@ -39,7 +39,7 @@ export const checkOtp = catchAsync(async (req, res, next) => {
     }
     const verifyCode = await verifyCode(phoneNumber, code)
     if (!verifyCode.success) {
-        return next(new HandleERROR('کد وارد شده نادرست است'))
+        return next(new HandleERROR('کد وارد شده نادرست است', 400))
     }
     let user
     if (newAccount === 'true') {
@@ -99,4 +99,41 @@ export const checkPassword = catchAsync(async (req, res, next) => {
         message: "ورود با موفقیت انجام شد"
     })
 
+})
+export const forgetPassword = catchAsync(async (req, res, next) => {
+    const { phoneNumber = null, code = null, password = null } = req.body
+    if (!phoneNumber || !code || !password) {
+        return next(new HandleERROR("اطلاعات وارد شده معتبر نیست", 400))
+    }
+    const verifyCode = await verifyCode({ phoneNumber })
+    if (!verifyCode.success) {
+        return next(new HandleERROR('کد وارد شده نادرست است', 400))
+    }
+    const regexPass = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/)
+    if (!regexPass.test(password)) {
+        return next(new HandleERROR("رمز عبور باید حداقل 8 کاراکتر و شامل حروف بزرگ و کوچک و اعداد باشد", 400))
+    }
+    const hashPassword = bcryptjs.hashSync(password, 10)
+    const user = await User.findOneAndUpdate({ phoneNumber }, { password: hashPassword })
+    if (!user) {
+        return next(new HandleERROR("کاربری با این شماره تلفن همراه یافت نشد", 404))
+    }
+    const token = jwt.sign({
+        id: user._id,
+        phoneNumber: user.phoneNumber,
+        role: user.role
+    }, process.env.JWT_SECRET)
+
+    return res.status(200).json({
+        success: true,
+        data: {
+            user: {
+                phoneNumber,
+                id: user._id,
+                role: user.role
+            },
+            token,
+        },
+        message: "رمز عبور با موفقیت تغییر کرد"
+    })
 })
