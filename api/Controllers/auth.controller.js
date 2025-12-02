@@ -149,3 +149,38 @@ export const resendCode = catchAsync(async (req, res, next) => {
         message: resultSms.success ? "code sent" : resultSms?.message,
     });
 })
+export const adminLogin = catchAsync(async (req, res, next) => {
+    const { phoneNumber = null, password = null } = req.body
+    if (!phoneNumber || !password) {
+        return next(new HandleERROR('شماره تلفن و رمزعبور اجباری است'))
+    }
+    const user = await User.findOne({ phoneNumber })
+    if (!user) {
+        return next(new HandleERROR("کاربری با این شماره تلفن همراه یافت نشد", 404))
+    }
+    if (user.role != 'admin') {
+        return next(new HandleERROR('شما مجوز ندارید', 401))
+    }
+    const validPassword = bcryptjs.compareSync(password, user?.password)
+    if (!validPassword) {
+        return next(new HandleERROR('رمز عبور نادرست است', 400))
+    }
+    const token = jwt.sign({
+        id: user._id,
+        phoneNumber: user.phoneNumber,
+        role: user.role
+    }, process.env.JWT_SECRET)
+
+    return res.status(200).json({
+        success: true,
+        data: {
+            user: {
+                phoneNumber,
+                id: user._id,
+                role: user.role
+            },
+            token,
+        },
+        message: "ورود با موفقیت انجام شد"
+    })
+})
