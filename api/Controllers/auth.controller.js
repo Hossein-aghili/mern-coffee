@@ -1,6 +1,7 @@
 import User from "../Models/user.model.js";
 import { catchAsync, HandleERROR } from "vanta-api";
 import jwt from "jsonwebtoken";
+import bcryptjs from "bcryptjs";
 export const auth = catchAsync(async (req, res, next) => {
     const { phoneNumber = null } = req.body
     if (!phoneNumber) {
@@ -34,7 +35,7 @@ export const auth = catchAsync(async (req, res, next) => {
 export const checkOtp = catchAsync(async (req, res, next) => {
     const { phoneNumber = null, code = null, newAccount = 'unknown' } = req.body
     if (!phoneNumber || !code || newAccount === 'unknown') {
-        return next(new HandleERROR('اطلاعات وارد شده نادرست است', 400))
+        return next(new HandleERROR('اطلاعات وارد شده اجباری است', 400))
     }
     const verifyCode = await verifyCode(phoneNumber, code)
     if (!verifyCode.success) {
@@ -62,7 +63,40 @@ export const checkOtp = catchAsync(async (req, res, next) => {
                 role: user.role
             },
             token,
-            message: "ورود با موفقیت انجام شد"
-        }
+        },
+        message: "ورود با موفقیت انجام شد"
     })
+})
+export const checkPassword = catchAsync(async (req, res, next) => {
+    const { phoneNumber = null, password = null } = req.body
+    if (!phoneNumber || !password) {
+        return next(new HandleERROR('شماره تلفن و رمزعبور اجباری است'))
+    }
+    const user = await User.findOne({ phoneNumber })
+    if (!user) {
+        return next(new HandleERROR('کاربر یافت نشد'))
+    }
+    const validPassword = bcryptjs.compareSync(password, user.password)
+    if (!validPassword) {
+        return next(new HandleERROR('رمز عبور نادرست است', 400))
+    }
+    const token = jwt.sign({
+        id: user._id,
+        phoneNumber: user.phoneNumber,
+        role: user.role
+    }, process.env.JWT_SECRET)
+
+    return res.status(200).json({
+        success: true,
+        data: {
+            user: {
+                phoneNumber,
+                id: user._id,
+                role: user.role
+            },
+            token,
+        },
+        message: "ورود با موفقیت انجام شد"
+    })
+
 })
