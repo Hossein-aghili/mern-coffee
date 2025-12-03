@@ -9,7 +9,7 @@ import {
 } from "../Controllers/auth.controller.js";
 const authRouter = express.Router();
 authRouter.route("/").post(auth);
-authRouter.route("/checkOtp").post(checkOtp);
+authRouter.route("/otp").post(checkOtp);
 authRouter.route("/checkPassword").post(checkPassword);
 authRouter.route("/forgetPassword").post(forgetPassword);
 authRouter.route("/resendCode").post(resendCode);

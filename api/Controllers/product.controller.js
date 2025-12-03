@@ -26,7 +26,7 @@ export const getAll = catchAsync(async (req, res, next) => {
 });
 export const getOne = catchAsync(async (req, res, next) => {
   const { id } = req.params;
-  const product = await Product.findById(id).populate("CategoryId");
+  const product = await Product.findById(id).populate("categoryId");
   if (!product) {
     return next(new HandleERROR("محصول پیدا نشد", 404));
   }
@@ -37,7 +37,7 @@ export const getOne = catchAsync(async (req, res, next) => {
   });
 });
 export const update = catchAsync(async (req, res, next) => {
-  const { id } = req.body;
+  const { id } = req.params;
   const product = await Product.findByIdAndUpdate(id, req.body, {
     new: true,
     runValidators: true,
@@ -52,7 +52,7 @@ export const update = catchAsync(async (req, res, next) => {
   });
 });
 export const remove = catchAsync(async (req, res, next) => {
-  const { id } = req.body;
+  const { id } = req.params;
   const product = await Product.findByIdAndDelete(id);
   return res.status(200).json({
     success: true,

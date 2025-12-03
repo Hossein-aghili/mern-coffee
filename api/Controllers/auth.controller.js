@@ -16,7 +16,7 @@ export const auth = catchAsync(async (req, res, next) => {
       password: true,
     });
   } else {
-    const resultSms = await sendAuthCode({ phoneNumber });
+    const resultSms = await sendAuthCode( phoneNumber );
     if (resultSms.success) {
       return res.status(200).json({
         success: true,
@@ -38,8 +38,8 @@ export const checkOtp = catchAsync(async (req, res, next) => {
   if (!phoneNumber || !code || newAccount === "unknown") {
     return next(new HandleERROR("اطلاعات وارد شده اجباری است", 400));
   }
-  const verifyCode = await verifyCode(phoneNumber, code);
-  if (!verifyCode.success) {
+  const verifyResult = await verifyCode(phoneNumber, code);
+  if (!verifyResult.success) {
     return next(new HandleERROR("کد وارد شده نادرست است", 400));
   }
   let user;
@@ -111,8 +111,8 @@ export const forgetPassword = catchAsync(async (req, res, next) => {
   if (!phoneNumber || !code || !password) {
     return next(new HandleERROR("اطلاعات وارد شده معتبر نیست", 400));
   }
-  const verifyCode = await verifyCode({ phoneNumber });
-  if (!verifyCode.success) {
+  const verifyResult = await verifyCode({ phoneNumber });
+  if (!verifyResult.success) {
     return next(new HandleERROR("کد وارد شده نادرست است", 400));
   }
   const regexPass = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/);

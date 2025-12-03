@@ -48,7 +48,7 @@ export const update = catchAsync(async (req, res, next) => {
   }
   return res.status(200).json({
     success: true,
-    data: newBlog,
+    data: blog,
     message: "وبلاگ با موفقیت اپدیت شد",
   });
 });
