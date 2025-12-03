@@ -47,10 +47,10 @@ export const update = catchAsync(async (req, res, next) => {
   if (req.role == "admin" && role) {
     user.role = role;
   }
-  const newUser = await user.save()
-      return res.status(200).json({
-        success: true,
-        data: newUser,
-        message: "با موفقیت آپدیت شد",
-      });
+  const newUser = await user.save();
+  return res.status(200).json({
+    success: true,
+    data: newUser,
+    message: "با موفقیت آپدیت شد",
+  });
 });
