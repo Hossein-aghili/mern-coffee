@@ -45,11 +45,11 @@ const router = createBrowserRouter([
             element: <GetAllCategory />,
           },
           {
-            path: "/create",
+            path: "create",
             element: <CreateCategory />,
           },
           {
-            path: "/update/:id",
+            path: "update/:id",
             element: <UpdateCategory />,
           },
         ],
@@ -63,11 +63,11 @@ const router = createBrowserRouter([
             element: <GetAllProduct />,
           },
           {
-            path: "/create",
+            path: "create",
             element: <CreateProduct />,
           },
           {
-            path: "/update/:id",
+            path: "update/:id",
             element: <UpdateProduct />,
           },
         ],
@@ -81,11 +81,11 @@ const router = createBrowserRouter([
             element: <GetAllBlog />,
           },
           {
-            path: "/create",
+            path: "create",
             element: <CreateBlog />,
           },
           {
-            path: "/update/:id",
+            path: "update/:id",
             element: <UpdateBlog />,
           },
         ],
@@ -99,11 +99,11 @@ const router = createBrowserRouter([
             element: <GetAllSlider />,
           },
           {
-            path: "/create",
+            path: "create",
             element: <CreateSlider />,
           },
           {
-            path: "/update/:id",
+            path: "update/:id",
             element: <UpdateSlider />,
           },
         ],
@@ -117,7 +117,7 @@ const router = createBrowserRouter([
             element: <GetAllUser />,
           },
           {
-            path: "/update/:id",
+            path: "update/:id",
             element: <UpdateUser />,
           },
         ],
